@@ -1,11 +1,8 @@
 package com.codecool.hashmap;
 
-
-import sun.awt.image.ImageWatched;
-
 import java.util.LinkedList;
 
-class Hashmap<K,V> {
+class HashMap<K,V> {
 
     class KeyValue{
         public K key;
@@ -22,7 +19,8 @@ class Hashmap<K,V> {
         }
     }
 
-    private int size = 16;
+    private int size = 4;
+    private int added = 0;
 
     private LinkedList<KeyValue>[] elements = new LinkedList[size];
 
@@ -44,7 +42,9 @@ class Hashmap<K,V> {
         KeyValue object = new KeyValue(key, value);
 
         list.add(object);
+        added++;
         elements[pos] = list;
+        resize();
     }
 
     public V getValue(K key){
@@ -89,6 +89,20 @@ class Hashmap<K,V> {
 
     private int getHash(K key){
         return Math.abs(key.hashCode() % size);
+    }
+
+    private void resize(){
+        if (added == size){
+            LinkedList<KeyValue>[] temp = elements;
+            size = size*2;
+            clearAll();
+            int iter = 0;
+            for (LinkedList list:temp) {
+                elements[iter] = list;
+                iter++;
+            }
+        }
+
     }
 
 
