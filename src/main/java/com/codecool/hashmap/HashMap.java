@@ -48,17 +48,17 @@ class HashMap<K,V> {
     }
 
     public V getValue(K key){
-    int pos = getHash(key);
-    if (elements[pos] != null){
-        LinkedList list = elements[pos];
+        int pos = getHash(key);
+        if (elements[pos] != null){
+            LinkedList list = elements[pos];
 
-        for (Object object:list) {
-            KeyValue keyValue = (KeyValue) object;
-            if (keyValue.key.equals(key)){
-                return keyValue.value;
+            for (Object object:list) {
+                KeyValue keyValue = (KeyValue) object;
+                if (keyValue.key.equals(key)){
+                    return keyValue.value;
+                }
             }
         }
-    }
 
         throw new IllegalArgumentException("Key not found!");
     }
@@ -92,9 +92,9 @@ class HashMap<K,V> {
     }
 
     private void resize(){
-        if (added == size){
+        if ((elements.length + added) == size * 3){
             LinkedList<KeyValue>[] temp = elements;
-            size = size*2;
+            size = size * 2;
             clearAll();
             int iter = 0;
             for (LinkedList list:temp) {
